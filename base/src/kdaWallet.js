@@ -1,10 +1,9 @@
 import { UnimplementedError } from "./errs";
 
 /**
- * Array of [account, pubkey] that the wallet can sign for
+ * Array of {account, pubKey} that the wallet can sign for
  * Most wallets will just have one item in this array.
- * Object.fromEntries() will create a map of account to pubkey.
- * @typedef {Array<[string, string]>} AccountsList
+ * @typedef {Array<{ account: string, pubKey: string }>} AccountsList
  */
 
 /**
