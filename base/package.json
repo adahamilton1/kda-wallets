@@ -2,5 +2,10 @@
   "name": "@kcf/kda-wallet-base",
   "version": "1.0.0",
   "exports": "./src/index.js",
-  "type": "module"
+  "type": "module",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@kadena/client": "^0.1.10",
+    "@kadena/types": "^0.1.2"
+  }
 }

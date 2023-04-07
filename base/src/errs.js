@@ -1,16 +1,6 @@
-const UNIMPLEMENTED_MESSAGE = "unimplemented"
-
+const UNIMPLEMENTED_STR = /** @type {const} */ ("unimplemented");
 export class UnimplementedError extends Error {
   constructor() {
-    super(UNIMPLEMENTED_MESSAGE);
+    super(UNIMPLEMENTED_STR);
   }
-}
-
-/**
- * 
- * @param {Error} e
- * @returns {e is UnimplementedError} 
- */
-export function isUnimplementedError(e) {
-  return e.message === UNIMPLEMENTED_MESSAGE;
 }

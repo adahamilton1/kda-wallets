@@ -5,9 +5,6 @@ module.exports = {
   },
   ignorePatterns: ["**/dist/*"],
   overrides: [
-    // TODO: include eslint for tailwindcss:
-    // https://github.com/francoismassart/eslint-plugin-tailwindcss
-    // doesn't work with @html-eslint/parser parser
     {
       files: "*.html",
       parser: "@html-eslint/parser",
@@ -31,12 +28,6 @@ module.exports = {
         ],
         "import/prefer-default-export": "off",
         "no-use-before-define": ["error", { functions: false }],
-        "no-restricted-imports": [
-          "error",
-          {
-            patterns: [".*"],
-          },
-        ],
         "no-restricted-syntax": [
           "error",
           {
@@ -58,6 +49,6 @@ module.exports = {
         "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
         "no-param-reassign": ["error", { props: false }],
       },
-    }
+    },
   ],
 };
