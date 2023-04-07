@@ -1,0 +1,10 @@
+lockfileVersion: 5.4
+
+overrides:
+  '@kcf/kda-wallet-base': ../../base
+
+specifiers:
+  '@kcf/kda-wallet-base': ../../base
+
+dependencies:
+  '@kcf/kda-wallet-base': link:../../base

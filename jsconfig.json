@@ -5,6 +5,5 @@
     "module": "ES2022",
     "moduleResolution": "node",
     "strictNullChecks": true
-  },
-  "exclude": ["**/dist/"]
+  }
 }

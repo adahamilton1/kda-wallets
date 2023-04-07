@@ -1,5 +1,5 @@
 {
-  "name": "@kcf/kda-wallet-base",
+  "name": "@kcf/kda-wallet-chainweaver",
   "version": "1.0.0",
   "main": "./src/index.js",
   "exports": "./src/index.js",
@@ -8,8 +8,9 @@
   "files": [
     "src/"
   ],
-  "devDependencies": {
-    "@kadena/client": "^0.1.10",
-    "@kadena/types": "^0.1.2"
+  "dependencies": {
+    "@kadena/client": "^0.1",
+    "@kcf/kda-wallet-base": "workspace:^",
+    "axios": "^1"
   }
 }

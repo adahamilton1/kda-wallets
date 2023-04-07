@@ -1,12 +1,22 @@
 import { UnimplementedError } from "./errs";
 
 /**
- * @typedef CtorArgs
- * @property {Record<string, string>} accounts map of the wallet's accounts to their corresponding pubkey
+ * Array of [account, pubkey] that the wallet can sign for
+ * Most wallets will just have one item in this array.
+ * Object.fromEntries() will create a map of account to pubkey.
+ * @typedef {Array<[string, string]>} AccountsList
  */
 
+/**
+ * @typedef CtorArgs
+ * @property {AccountsList} accounts list of the wallet's accounts and their corresponding pubkeys
+ */
+
+/**
+ * The abstract base class for Kadena wallets to extend
+ */
 export class KdaWallet {
-  /** @type {Record<string, string>} */
+  /** @type {AccountsList} */
   #accounts;
 
   /**
@@ -18,8 +28,8 @@ export class KdaWallet {
   }
 
   /**
-   * Returns map of the wallet's accounts to their corresponding pubkey
-   * @returns {Record<string, string>}
+   * Returns list of the wallet's accounts and their corresponding pubkeys
+   * @returns {AccountsList}
    */
   get accounts() {
     return this.#accounts;
