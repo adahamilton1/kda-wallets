@@ -1,7 +1,7 @@
 import {
   KdaWallet,
   signerPubkeys,
-  toSigningRequest,
+  toSigningRequestV2,
 } from "@kcf/kda-wallet-base";
 import axios, { Axios } from "axios";
 
@@ -72,18 +72,21 @@ export class ChainweaverWallet extends KdaWallet {
   /**
    * @override
    * @param {import("@kadena/client").PactCommand} cmd
+   * @returns {Promise<import("@kadena/types/src/PactCommand").ICommand>}
    */
   async signCmd(cmd) {
     const { data } = await this.#axios.post(
       SIGN_ENDPOINT,
-      toSigningRequest(cmd)
+      JSON.stringify(toSigningRequestV2(cmd))
     );
-    return data;
+    // axios isnt parsing return data as json for some reason
+    return typeof data === "string" ? JSON.parse(data).body : data.body;
   }
 
   /**
    * @override
    * @param {Array<import("@kadena/client").PactCommand>} cmds
+   * @returns {Promise<Array<import("@kadena/types/src/PactCommand").ICommand>>}
    */
   async quickSignCmds(cmds) {
     const [cmdSigDatas, hashes] = cmds.reduce(([c, h], cmd) => {
@@ -99,11 +102,15 @@ export class ChainweaverWallet extends KdaWallet {
       h.push(hash);
       return [c, h];
     }, /** @type {[import("@kadena/client").IUnsignedQuicksignTransaction[], string[]]} */ ([[], []]));
-    const { data } = await this.#axios.post(QUICKSIGN_ENDPOINT, {
-      cmdSigDatas,
-    });
+    const { data } = await this.#axios.post(
+      QUICKSIGN_ENDPOINT,
+      JSON.stringify({
+        cmdSigDatas,
+      })
+    );
+    // axios isnt parsing return data as json for some reason
     /** @type {import("@kadena/client").IQuicksignResponseOutcomes} */
-    const { responses } = data;
+    const { responses } = typeof data === "string" ? JSON.parse(data) : data;
     for (const { outcome } of responses) {
       if (outcome.result === "failure") {
         throw new Error(outcome.msg);

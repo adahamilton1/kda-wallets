@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script type="module" src="/js/index.js"></script>
+    <script type="module" src="/index.js"></script>
     <link href="index.css" rel="stylesheet" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
     <title>Example Kadena Wallet Adapter App</title>
   </head>
   <body>
@@ -14,7 +18,7 @@
       </header>
     </section>
     <section>
-      <h2>Send a Transfer on testnet</h2>
+      <h2>Simulate a Transfer on testnet</h2>
       <form id="transfer-form">
         <label>
           <p>Amount:</p>
@@ -24,7 +28,13 @@
           <p>To:</p>
           <input id="transfer-to-input" type="text" />
         </label>
+        <button id="sign-button" type="button">Sign</button>
+        <button id="quicksign-button" type="button">QuickSign</button>
       </form>
+    </section>
+    <section>
+      <h2>/local result:</h2>
+      <p id="local-result"></p>
     </section>
     <dialog id="connect-chainweaver-dialog">
       <form id="connect-chainweaver-form">

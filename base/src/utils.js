@@ -37,7 +37,7 @@ export function toSigningCaps({ name, args }) {
 
 /**
  * Converts a pact command to signing api request payload
- * for chainweaver, zelcore etc.
+ * for zelcore etc.
  * Assumes only one signer, and that all caps are granted to the
  * sole signer
  * @param {import("@kadena/client").IPactCommand} cmd
@@ -62,5 +62,50 @@ export function toSigningRequest({
     gasPrice,
     ttl,
     signingPubKey,
+  };
+}
+
+/**
+ * Updated definition of signing request used by chainweaver
+ * @typedef ISigningRequestV2
+ * @property {string} code
+ * @property {Record<string, unknown>} data
+ * @property {import("@kadena/types").ISigningCap[]} caps
+ * @property {string} nonce
+ * @property {import("@kadena/client").PactCommand["publicMeta"]["chainId"]} chainId
+ * @property {number} gasLimit
+ * @property {number} gasPrice
+ * @property {number} ttl
+ * @property {string} sender
+ * @property {string[]} extraSigners
+ *
+ */
+
+/**
+ * Converts a pact command to signing api request payload
+ * for chainweaver, zelcore etc.
+ * Assumes only one signer, and that all caps are granted to the
+ * sole signer
+ * @param {import("@kadena/client").IPactCommand} cmd
+ * @return {ISigningRequestV2}
+ */
+export function toSigningRequestV2({
+  code,
+  data,
+  publicMeta: { chainId, gasLimit, gasPrice, ttl, sender },
+  signers,
+}) {
+  const [_sender, ...extraSigners] = signerPubkeys(signers);
+  return {
+    code,
+    data,
+    caps: signers.flatMap(({ caps }) => caps.map(toSigningCaps)),
+    nonce: Date.now().toString(),
+    chainId,
+    gasLimit,
+    gasPrice,
+    ttl,
+    sender,
+    extraSigners,
   };
 }

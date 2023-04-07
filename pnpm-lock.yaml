@@ -36,13 +36,19 @@ importers:
 
   example:
     specifiers:
+      '@kadena/client': ^0.1.10
+      '@kadena/types': ^0.1.2
       '@kcf/kda-wallet-base': workspace:^
       '@kcf/kda-wallet-chainweaver': workspace:^
+      axios: ^1
       glob: ^9.3.4
       vite: ^4.2.1
     dependencies:
+      '@kadena/client': 0.1.10
       '@kcf/kda-wallet-chainweaver': link:../wallets/chainweaver
+      axios: 1.3.5
     devDependencies:
+      '@kadena/types': 0.1.2
       '@kcf/kda-wallet-base': link:../base
       glob: 9.3.4
       vite: 4.2.1
@@ -50,12 +56,15 @@ importers:
   wallets/chainweaver:
     specifiers:
       '@kadena/client': ^0.1
+      '@kadena/types': ^0.1.2
       '@kcf/kda-wallet-base': workspace:^
       axios: ^1
     dependencies:
       '@kadena/client': 0.1.10
       '@kcf/kda-wallet-base': link:../../base
       axios: 1.3.5
+    devDependencies:
+      '@kadena/types': 0.1.2
 
 packages:
 

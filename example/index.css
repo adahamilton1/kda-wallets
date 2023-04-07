@@ -16,3 +16,13 @@ section {
   gap: 1em;
   align-items: center;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+#local-result {
+  padding: 1em;
+}

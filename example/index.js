@@ -1,7 +1,12 @@
+import { PactCommand } from "@kadena/client";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
+import axios from "axios";
 
 /** @type {?import("@kcf/kda-wallet-base").KdaWallet} */
 let CONNECTED_WALLET = null;
+
+const CHAINWEB_LOCAL_ENDPOINT =
+  "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local";
 
 const ALL_WALLETS = /** @type {const} */ (["chainweaver"]);
 
@@ -23,6 +28,66 @@ const WALLET_TO_CONNECT_PROCEDURE = {
 };
 
 /**
+ * @returns {import("@kadena/client").PactCommand}
+ */
+function transferPactCmd() {
+  /** @type {HTMLInputElement} */
+  // @ts-ignore
+  const amtInput = document.getElementById("transfer-amount-input");
+  /** @type {HTMLInputElement} */
+  // @ts-ignore
+  const toInput = document.getElementById("transfer-to-input");
+
+  const amtVal = amtInput.value;
+  const toVal = toInput.value;
+  if (!amtVal || !toVal) {
+    throw new Error("missing input");
+  }
+  const amt = Number(amtVal);
+  if (amt < 0 || Number.isNaN(amt) || !Number.isFinite(amt)) {
+    throw new Error("invalid amount");
+  }
+  if (!CONNECTED_WALLET) {
+    throw new Error("wallet not connected");
+  }
+  const { account: sender, pubKey } = CONNECTED_WALLET.accounts[0];
+  /** @type {import("@kadena/client").PactCommand} */
+  // @ts-ignore
+  const res = new PactCommand();
+  res.code = `(coin.transfer "${sender}" "${toVal}" ${amt.toFixed(14)})`;
+  res.setMeta(
+    {
+      sender,
+      chainId: "1",
+      ttl: 600,
+      gasLimit: 2500,
+      gasPrice: 1e-7,
+    },
+    "testnet04"
+  );
+  res.addCap("coin.GAS", pubKey);
+  // @ts-ignore
+  res.addCap("coin.TRANSFER", pubKey, sender, toVal, amt);
+  return res;
+}
+
+/**
+ * @param {import("@kadena/types/src/PactCommand").ICommand} cmd
+ */
+async function simulateSignedCmd(cmd) {
+  const { data } = await axios.post(CHAINWEB_LOCAL_ENDPOINT, cmd, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  /** @type {HTMLParagraphElement} */
+  // @ts-ignore
+  const resultP = document.getElementById("local-result");
+  console.log(data);
+  resultP.innerText = JSON.stringify(data);
+}
+
+/**
  *
  * @param {string} account
  */
@@ -38,9 +103,6 @@ function isKAccount(account) {
 function accountsDisplayStr(wallet) {
   // @ts-ignore
   const prefix = wallet.constructor.walletName();
-  if (wallet.accounts.length > 1) {
-    return `${prefix} (multiple accounts)`;
-  }
   const { account } = wallet.accounts[0];
   return `${prefix} (${account})`;
 }
@@ -90,6 +152,22 @@ function onConnectedWalletChanged() {
   } else {
     h2.innerText = "Select a Wallet to Connect";
   }
+
+  ["sign-button", "quicksign-button"].forEach((id) => {
+    /** @type {HTMLButtonElement} */
+    // @ts-ignore
+    const btn = document.getElementById(id);
+    if (CONNECTED_WALLET) {
+      btn.removeAttribute("disabled");
+    } else {
+      btn.setAttribute("disabled", "1");
+    }
+  });
+
+  /** @type {HTMLParagraphElement} */
+  // @ts-ignore
+  const resultP = document.getElementById("local-result");
+  resultP.innerText = "";
 }
 
 /**
@@ -143,9 +221,38 @@ function setupDisconnectWalletButton() {
   };
 }
 
+function setupTransferForm() {
+  /** @type {HTMLButtonElement} */
+  // @ts-ignore
+  const signBtn = document.getElementById("sign-button");
+  signBtn.onclick = async () => {
+    const cmd = transferPactCmd();
+    if (!CONNECTED_WALLET) {
+      return;
+    }
+    const signed = await CONNECTED_WALLET.signCmd(cmd);
+    await simulateSignedCmd(signed);
+  };
+
+  /** @type {HTMLButtonElement} */
+  // @ts-ignore
+  const quickSignBtn = document.getElementById("quicksign-button");
+  quickSignBtn.onclick = async () => {
+    const cmd = transferPactCmd();
+    if (!CONNECTED_WALLET) {
+      return;
+    }
+    const [signed] = await CONNECTED_WALLET.quickSignCmds([cmd]);
+    await simulateSignedCmd(signed);
+  };
+}
+
 function onPageParsed() {
   createConnectWalletButtons();
   setupDisconnectWalletButton();
+  setupTransferForm();
+
+  onConnectedWalletChanged();
 }
 
 onPageParsed();
