@@ -1,9 +1,16 @@
 import { UnimplementedError } from "./errs";
 
 /**
+ * @typedef {{
+ *  account: string;
+ *  pubKey: string;
+ * }} AccountPubkey
+ */
+
+/**
  * Array of {account, pubKey} that the wallet can sign for
  * Most wallets will just have one item in this array.
- * @typedef {Array<{ account: string, pubKey: string }>} AccountsList
+ * @typedef {Array<AccountPubkey>} AccountsList
  */
 
 /**
@@ -32,6 +39,14 @@ export class KdaWallet {
    */
   get accounts() {
     return this.#accounts;
+  }
+
+  /**
+   * Returns the name of this wallet
+   * @returns {string}
+   */
+  static walletName() {
+    throw new UnimplementedError();
   }
 
   /**

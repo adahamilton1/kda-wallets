@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module" src="/js/index.js"></script>
+    <link href="index.css" rel="stylesheet" />
+    <title>Example Kadena Wallet Adapter App</title>
+  </head>
+  <body>
+    <h1>Example Kadena Wallet Adapter App</h1>
+    <section id="wallet-select-section">
+      <header id="wallet-select-header">
+        <h2 id="wallet-select-label">Select a Wallet to Connect</h2>
+        <button id="disconnect-button">disconnect</button>
+      </header>
+    </section>
+    <section>
+      <h2>Send a Transfer on testnet</h2>
+      <form id="transfer-form">
+        <label>
+          <p>Amount:</p>
+          <input id="transfer-amount-input" type="number" />
+        </label>
+        <label>
+          <p>To:</p>
+          <input id="transfer-to-input" type="text" />
+        </label>
+      </form>
+    </section>
+    <dialog id="connect-chainweaver-dialog">
+      <form id="connect-chainweaver-form">
+        <label>
+          <p>Paste your 'k:' wallet address here:</p>
+          <input id="chainweaver-address-input" type="text" />
+        </label>
+        <button type="submit">Connect</button>
+      </form>
+      <p>Press esc to close</p>
+    </dialog>
+  </body>
+</html>

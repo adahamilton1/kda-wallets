@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@kcf/kda-wallet-chainweaver": "workspace:^"
+  },
+  "devDependencies": {
+    "@kcf/kda-wallet-base": "workspace:^",
+    "glob": "^9.3.4",
+    "vite": "^4.2.1"
+  }
+}

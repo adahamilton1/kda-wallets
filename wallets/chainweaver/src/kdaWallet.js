@@ -6,8 +6,8 @@ import {
 import axios, { Axios } from "axios";
 
 const API_V1_ENDPOINT = "http://localhost:9467/v1";
-const SIGN_ENDPOINT = "/sign";
-const QUICKSIGN_ENDPOINT = "/quicksign";
+const SIGN_ENDPOINT = "sign";
+const QUICKSIGN_ENDPOINT = "quicksign";
 
 export class ChainweaverWallet extends KdaWallet {
   /** @type {Axios} */
@@ -31,9 +31,17 @@ export class ChainweaverWallet extends KdaWallet {
   /**
    * @override
    */
+  static walletName() {
+    return "chainweaver";
+  }
+
+  /**
+   * @override
+   */
   static async isInstalled() {
     try {
-      await axios.get(SIGN_ENDPOINT, {
+      // error will show up on console but will not throw
+      await axios.get(`${API_V1_ENDPOINT}/${SIGN_ENDPOINT}`, {
         validateStatus: (status) => status === 405,
       });
       return true;
@@ -43,7 +51,7 @@ export class ChainweaverWallet extends KdaWallet {
   }
 
   /**
-   * @override
+   * @override chainweaver requires additional user input of account + pubkey
    * @param {Partial<import("@kcf/kda-wallet-base").CtorArgs>} args
    */
   static async connect({ accounts }) {
