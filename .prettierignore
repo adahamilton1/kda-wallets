@@ -1,0 +1,4 @@
+# build outputs
+**/dist/
+
+pnpm-lock.yaml
