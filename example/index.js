@@ -1,5 +1,6 @@
 import { PactCommand } from "@kadena/client";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
+import { EckoWallet } from "@kcf/kda-wallet-eckowallet";
 import axios from "axios";
 
 /** @type {?import("@kcf/kda-wallet-base").KdaWallet} */
@@ -8,7 +9,13 @@ let CONNECTED_WALLET = null;
 const CHAINWEB_LOCAL_ENDPOINT =
   "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local";
 
-const ALL_WALLETS = /** @type {const} */ (["chainweaver"]);
+const NETWORK_ID = "testnet04";
+const CHAIN_ID = "1";
+const TTL_S = 600;
+const GAS_LIMIT = 2500;
+const GAS_PRICE = 1e-7;
+
+const ALL_WALLETS = /** @type {const} */ (["chainweaver", "eckoWALLET"]);
 
 /** @typedef {typeof ALL_WALLETS[number]} WalletKey */
 
@@ -17,6 +24,7 @@ const ALL_WALLETS = /** @type {const} */ (["chainweaver"]);
  */
 const WALLET_TO_CLASS = {
   chainweaver: ChainweaverWallet,
+  eckoWALLET: EckoWallet,
 };
 
 /**
@@ -25,6 +33,7 @@ const WALLET_TO_CLASS = {
  */
 const WALLET_TO_CONNECT_PROCEDURE = {
   chainweaver: connectChainweaverViaDialog,
+  eckoWALLET: () => EckoWallet.connect({ networkId: NETWORK_ID }),
 };
 
 /**
@@ -58,12 +67,12 @@ function transferPactCmd() {
   res.setMeta(
     {
       sender,
-      chainId: "1",
-      ttl: 600,
-      gasLimit: 2500,
-      gasPrice: 1e-7,
+      chainId: CHAIN_ID,
+      ttl: TTL_S,
+      gasLimit: GAS_LIMIT,
+      gasPrice: GAS_PRICE,
     },
-    "testnet04"
+    NETWORK_ID
   );
   res.addCap("coin.GAS", pubKey);
   // @ts-ignore
@@ -185,10 +194,13 @@ function createConnectWalletButton(walletKey) {
       alert("disconnect wallet first");
       return;
     }
-    // try-catch here to handle connect errors gracefully
-    const wallet = await connectFn();
-    CONNECTED_WALLET = wallet;
-    onConnectedWalletChanged();
+    try {
+      const wallet = await connectFn();
+      CONNECTED_WALLET = wallet;
+      onConnectedWalletChanged();
+    } catch (e) {
+      alert(e.message);
+    }
   };
   cls.isInstalled().then((isInstalled) => {
     if (!isInstalled) {

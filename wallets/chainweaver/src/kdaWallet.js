@@ -1,9 +1,15 @@
 import {
+  attachQuicksignSigs,
   KdaWallet,
-  signerPubkeys,
+  toCmdSigDatasAndHashes,
   toSigningRequestV2,
 } from "@kcf/kda-wallet-base";
 import axios, { Axios } from "axios";
+
+/**
+ * @typedef ChainweaverConnectArgs
+ * @property {import("@kcf/kda-wallet-base").AccountsList} accounts
+ */
 
 const API_V1_ENDPOINT = "http://localhost:9467/v1";
 const SIGN_ENDPOINT = "sign";
@@ -52,10 +58,11 @@ export class ChainweaverWallet extends KdaWallet {
 
   /**
    * @override chainweaver requires additional user input of account + pubkey
-   * @param {Partial<import("@kcf/kda-wallet-base").CtorArgs>} args
+   * @param {ChainweaverConnectArgs} args
+   * @returns {Promise<ChainweaverWallet>}
    */
   static async connect({ accounts }) {
-    if (!accounts || accounts.length === 0) {
+    if (accounts.length === 0) {
       throw new Error(
         "insufficient account info. Need at least 1 account + pubkey provided"
       );
@@ -89,19 +96,7 @@ export class ChainweaverWallet extends KdaWallet {
    * @returns {Promise<Array<import("@kadena/types/src/PactCommand").ICommand>>}
    */
   async quickSignCmds(cmds) {
-    const [cmdSigDatas, hashes] = cmds.reduce(([c, h], cmd) => {
-      const { cmd: cmdStr, hash } = cmd.createCommand();
-      const sigs = signerPubkeys(cmd.signers).map((pubkey) => ({
-        pubKey: pubkey,
-        sig: null,
-      }));
-      c.push({
-        cmd: cmdStr,
-        sigs,
-      });
-      h.push(hash);
-      return [c, h];
-    }, /** @type {[import("@kadena/client").IUnsignedQuicksignTransaction[], string[]]} */ ([[], []]));
+    const { cmdSigDatas, hashes } = toCmdSigDatasAndHashes(cmds);
     const { data } = await this.#axios.post(
       QUICKSIGN_ENDPOINT,
       JSON.stringify({
@@ -116,19 +111,7 @@ export class ChainweaverWallet extends KdaWallet {
         throw new Error(outcome.msg);
       }
     }
-    return cmdSigDatas.map(({ cmd }, i) => {
-      const hash = hashes[i];
-      const {
-        commandSigData: { sigs },
-      } = responses[i];
-      return {
-        cmd,
-        hash,
-        // filter non-null and remove pubKey field
-        sigs: sigs
-          .filter(({ sig }) => Boolean(sig))
-          .map(({ sig }) => ({ sig })),
-      };
-    });
+    const sigsArray = responses.map(({ commandSigData: { sigs } }) => sigs);
+    return attachQuicksignSigs({ cmdSigDatas, hashes }, sigsArray);
   }
 }

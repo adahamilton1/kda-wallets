@@ -6,6 +6,7 @@
   "dependencies": {
     "@kadena/client": "^0.1.10",
     "@kcf/kda-wallet-chainweaver": "workspace:^",
+    "@kcf/kda-wallet-eckowallet": "workspace:^",
     "axios": "^1"
   },
   "devDependencies": {

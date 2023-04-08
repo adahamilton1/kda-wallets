@@ -60,7 +60,7 @@ export class KdaWallet {
 
   /**
    * Connect and instantiate the wallet
-   * @param {Partial<CtorArgs>} _args
+   * @param {any} _args
    * @returns {Promise<KdaWallet>}
    * @throws if connection failed
    */

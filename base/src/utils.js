@@ -66,7 +66,8 @@ export function toSigningRequest({
 }
 
 /**
- * Updated definition of signing request used by chainweaver
+ * Updated definition of signing request used by chainweaver.
+ * See https://kadena-io.github.io/signing-api/
  * @typedef ISigningRequestV2
  * @property {string} code
  * @property {Record<string, unknown>} data
@@ -108,4 +109,51 @@ export function toSigningRequestV2({
     sender,
     extraSigners,
   };
+}
+
+/**
+ * @typedef CmdSigDatasAndHashes
+ * @property {import("@kadena/client").IUnsignedQuicksignTransaction[]} cmdSigDatas
+ * @property {string[]} hashes
+ */
+
+/**
+ * For quicksign.
+ * @param {Array<import("@kadena/client").PactCommand>} cmds
+ * @returns {CmdSigDatasAndHashes} where cmdSigDatas is ready to be sent to a quicksign request endpoint
+ */
+export function toCmdSigDatasAndHashes(cmds) {
+  return cmds.reduce(({ cmdSigDatas, hashes }, cmd) => {
+    const { cmd: cmdStr, hash } = cmd.createCommand();
+    const sigs = signerPubkeys(cmd.signers).map((pubkey) => ({
+      pubKey: pubkey,
+      sig: null,
+    }));
+    cmdSigDatas.push({
+      cmd: cmdStr,
+      sigs,
+    });
+    hashes.push(hash);
+    return { cmdSigDatas, hashes };
+  }, /** @type {CmdSigDatasAndHashes} */ ({ cmdSigDatas: [], hashes: [] }));
+}
+
+/**
+ * Create an array of ICommands ready to post to the network
+ * by attaching the signatures received from a successful quicksign request
+ * @param {CmdSigDatasAndHashes} _cmdSigDataAndHashes
+ * @param {import("@kadena/client").IQuicksignSigner[][]} sigsArray
+ * @return {import("@kadena/types/src/PactCommand").ICommand[]}
+ */
+export function attachQuicksignSigs({ cmdSigDatas, hashes }, sigsArray) {
+  return cmdSigDatas.map(({ cmd }, i) => {
+    const hash = hashes[i];
+    const sigs = sigsArray[i];
+    return {
+      cmd,
+      hash,
+      // filter non-null and remove pubKey field
+      sigs: sigs.filter(({ sig }) => Boolean(sig)).map(({ sig }) => ({ sig })),
+    };
+  });
 }
