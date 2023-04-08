@@ -157,3 +157,20 @@ export function attachQuicksignSigs({ cmdSigDatas, hashes }, sigsArray) {
     };
   });
 }
+
+/**
+ * @param {string} account
+ * @returns {boolean}
+ */
+export function isKAccount(account) {
+  return account.match(/^k:[0-9A-Fa-f]{64}$/) !== null;
+}
+
+/**
+ * Extracts the pubkey from a k: account
+ * @param {string} kAccount
+ * @returns {string}
+ */
+export function kAccountPubkey(kAccount) {
+  return kAccount.substring(2);
+}

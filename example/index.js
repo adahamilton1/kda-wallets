@@ -1,7 +1,10 @@
 import { PactCommand } from "@kadena/client";
+import { isKAccount } from "@kcf/kda-wallet-base";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
 import { EckoWallet } from "@kcf/kda-wallet-eckowallet";
+import { Web3Modal } from "@web3modal/standalone";
 import axios from "axios";
+import { mkChainKey, WalletConnectWallet } from "@kcf/kda-wallet-walletconnect";
 
 /** @type {?import("@kcf/kda-wallet-base").KdaWallet} */
 let CONNECTED_WALLET = null;
@@ -15,7 +18,32 @@ const TTL_S = 600;
 const GAS_LIMIT = 2500;
 const GAS_PRICE = 1e-7;
 
-const ALL_WALLETS = /** @type {const} */ (["chainweaver", "eckoWALLET"]);
+/** kadena coin flip reborn project ID */
+const WALLETCONNECT_PROJECT_ID = "67ce47db9e4c2585385be3581ee3cb9d";
+
+const WALLETCONNECT_SIGN_CLIENT_OPTIONS = {
+  projectId: WALLETCONNECT_PROJECT_ID,
+  metadata: {
+    name: "Example Kadena Wallet Adapter App",
+    description: "A simple webapp for testing kadena wallets",
+    url: "http://localhost",
+    icons: [
+      "https://altcoinsbox.com/wp-content/uploads/2023/01/kadena-logo-300x300.webp",
+    ],
+  },
+};
+
+const WEB3_MODAL = new Web3Modal({
+  projectId: WALLETCONNECT_PROJECT_ID,
+  walletConnectVersion: 2,
+  standaloneChains: [mkChainKey(NETWORK_ID)],
+});
+
+const ALL_WALLETS = /** @type {const} */ ([
+  "chainweaver",
+  "eckoWALLET",
+  "WalletConnect",
+]);
 
 /** @typedef {typeof ALL_WALLETS[number]} WalletKey */
 
@@ -25,6 +53,7 @@ const ALL_WALLETS = /** @type {const} */ (["chainweaver", "eckoWALLET"]);
 const WALLET_TO_CLASS = {
   chainweaver: ChainweaverWallet,
   eckoWALLET: EckoWallet,
+  WalletConnect: WalletConnectWallet,
 };
 
 /**
@@ -34,9 +63,18 @@ const WALLET_TO_CLASS = {
 const WALLET_TO_CONNECT_PROCEDURE = {
   chainweaver: connectChainweaverViaDialog,
   eckoWALLET: () => EckoWallet.connect({ networkId: NETWORK_ID }),
+  WalletConnect: () =>
+    WalletConnectWallet.connect({
+      signClientOptions: WALLETCONNECT_SIGN_CLIENT_OPTIONS,
+      walletConnectModalController: WEB3_MODAL,
+      networkId: NETWORK_ID,
+      // establish a new session every time
+      pairingTopic: undefined,
+    }),
 };
 
 /**
+ * Create the simple transfer transaction from form inputs
  * @returns {import("@kadena/client").PactCommand}
  */
 function transferPactCmd() {
@@ -94,14 +132,6 @@ async function simulateSignedCmd(cmd) {
   const resultP = document.getElementById("local-result");
   console.log(data);
   resultP.innerText = JSON.stringify(data);
-}
-
-/**
- *
- * @param {string} account
- */
-function isKAccount(account) {
-  return account.startsWith("k:") && account.length === 66;
 }
 
 /**
@@ -218,19 +248,21 @@ function createConnectWalletButtons() {
   section.append(...connectWalletButtons);
 }
 
+async function disconnectWallet() {
+  if (!CONNECTED_WALLET) {
+    alert("no wallet connected");
+    return;
+  }
+  await CONNECTED_WALLET.disconnect();
+  CONNECTED_WALLET = null;
+  onConnectedWalletChanged();
+}
+
 function setupDisconnectWalletButton() {
   /** @type {HTMLButtonElement} */
   // @ts-ignore
   const btn = document.getElementById("disconnect-button");
-  btn.onclick = async () => {
-    if (!CONNECTED_WALLET) {
-      alert("no wallet connected");
-      return;
-    }
-    await CONNECTED_WALLET.disconnect();
-    CONNECTED_WALLET = null;
-    onConnectedWalletChanged();
-  };
+  btn.onclick = disconnectWallet;
 }
 
 function setupTransferForm() {

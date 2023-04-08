@@ -1,0 +1,22 @@
+{
+  "name": "@kcf/kda-wallet-walletconnect",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": [
+    "src/"
+  ],
+  "dependencies": {
+    "@kcf/kda-wallet-base": "workspace:^",
+    "@walletconnect/sign-client": "^2.6.2"
+  },
+  "devDependencies": {
+    "@kadena/client": "^0.1.10",
+    "@kadena/types": "^0.1.2",
+    "@types/node": "^18.15.11",
+    "@walletconnect/types": "^2.6.2",
+    "typescript": "^5.0.4"
+  }
+}

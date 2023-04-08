@@ -5,13 +5,15 @@
   },
   "dependencies": {
     "@kadena/client": "^0.1.10",
+    "@kcf/kda-wallet-base": "workspace:^",
     "@kcf/kda-wallet-chainweaver": "workspace:^",
     "@kcf/kda-wallet-eckowallet": "workspace:^",
+    "@kcf/kda-wallet-walletconnect": "workspace:^",
+    "@web3modal/standalone": "^2.2.2",
     "axios": "^1"
   },
   "devDependencies": {
     "@kadena/types": "^0.1.2",
-    "@kcf/kda-wallet-base": "workspace:^",
     "glob": "^9.3.4",
     "vite": "^4.2.1"
   }
