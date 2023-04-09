@@ -1,5 +1,5 @@
 import { PactCommand } from "@kadena/client";
-import { isKAccount } from "@kcf/kda-wallet-base";
+import { isKAccount, kAccountPubkey } from "@kcf/kda-wallet-base";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
 import { EckoWallet } from "@kcf/kda-wallet-eckowallet";
 import { ZelcoreWallet } from "@kcf/kda-wallet-zelcore";
@@ -108,8 +108,6 @@ function transferPactCmd() {
     throw new Error("wallet not connected");
   }
   const { account: sender, pubKey } = CONNECTED_WALLET.accounts[0];
-  /** @type {import("@kadena/client").PactCommand} */
-  // @ts-ignore
   const res = new PactCommand();
   res.code = `(coin.transfer "${sender}" "${toVal}" ${amt.toFixed(14)})`;
   res.setMeta(
@@ -189,7 +187,7 @@ async function connectChainweaverViaDialog() {
       dialog.close();
       resolve(
         ChainweaverWallet.connect({
-          accounts: [{ account, pubKey: account.substring(2) }],
+          accounts: [{ account, pubKey: kAccountPubkey(account) }],
         })
       );
     };

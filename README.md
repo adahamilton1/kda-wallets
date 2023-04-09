@@ -1,6 +1,6 @@
 # @kcf/kda-wallet
 
-A universal wallet adapter for kadena wallets.
+A universal wallet adapter for kadena wallets built upon [kadena.js](https://github.com/kadena-community/kadena.js)
 
 ## Table of contents
 
