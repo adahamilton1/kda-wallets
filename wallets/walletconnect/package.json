@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "@kcf/kda-wallet-base": "workspace:^",
-    "@walletconnect/sign-client": "^2.6.2"
+    "@walletconnect/sign-client": "^2"
   },
   "devDependencies": {
     "@kadena/client": "^0.1.10",
