@@ -3,6 +3,13 @@ import { isKAccount } from "@kcf/kda-wallet-base";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
 import { EckoWallet } from "@kcf/kda-wallet-eckowallet";
 import { ZelcoreWallet } from "@kcf/kda-wallet-zelcore";
+/**
+ * https://github.com/mapbox/mapbox-gl-geocoder/issues/441
+ * `events` npm package must be installed
+ * else Web3Modal will throw
+ * `events_1.EventEmitter is not a constructor`
+ *
+ */
 import { Web3Modal } from "@web3modal/standalone";
 import axios from "axios";
 import { mkChainKey, WalletConnectWallet } from "@kcf/kda-wallet-walletconnect";

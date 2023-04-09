@@ -11,7 +11,8 @@
     "@kcf/kda-wallet-walletconnect": "workspace:^",
     "@kcf/kda-wallet-zelcore": "workspace:^",
     "@web3modal/standalone": "^2.2.2",
-    "axios": "^1"
+    "axios": "^1",
+    "events": "^3.3.0"
   },
   "devDependencies": {
     "@kadena/types": "^0.1.2",
