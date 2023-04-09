@@ -48,6 +48,7 @@ export class ChainweaverWallet extends KdaWallet {
     try {
       // error will show up on console but will not throw
       await axios.get(`${API_V1_ENDPOINT}/${SIGN_ENDPOINT}`, {
+        // chainweaver returns 405 when attempting GET
         validateStatus: (status) => status === 405,
       });
       return true;

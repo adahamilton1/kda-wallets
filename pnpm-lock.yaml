@@ -42,6 +42,7 @@ importers:
       '@kcf/kda-wallet-chainweaver': workspace:^
       '@kcf/kda-wallet-eckowallet': workspace:^
       '@kcf/kda-wallet-walletconnect': workspace:^
+      '@kcf/kda-wallet-zelcore': workspace:^
       '@web3modal/standalone': ^2.2.2
       axios: ^1
       glob: ^9.3.4
@@ -52,6 +53,7 @@ importers:
       '@kcf/kda-wallet-chainweaver': link:../wallets/chainweaver
       '@kcf/kda-wallet-eckowallet': link:../wallets/eckowallet
       '@kcf/kda-wallet-walletconnect': link:../wallets/walletconnect
+      '@kcf/kda-wallet-zelcore': link:../wallets/zelcore
       '@web3modal/standalone': 2.2.2
       axios: 1.3.5
     devDependencies:
@@ -101,6 +103,19 @@ importers:
       '@types/node': 18.15.11
       '@walletconnect/types': 2.6.2_bhanhq442dy43ncydsavgi4jfi
       typescript: 5.0.4
+
+  wallets/zelcore:
+    specifiers:
+      '@kadena/client': ^0.1
+      '@kadena/types': ^0.1.2
+      '@kcf/kda-wallet-base': workspace:^
+      axios: ^1
+    dependencies:
+      '@kadena/client': 0.1.10
+      '@kcf/kda-wallet-base': link:../../base
+      axios: 1.3.5
+    devDependencies:
+      '@kadena/types': 0.1.2
 
 packages:
 

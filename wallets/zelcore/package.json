@@ -1,0 +1,19 @@
+{
+  "name": "@kcf/kda-wallet-zelcore",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": [
+    "src/"
+  ],
+  "dependencies": {
+    "@kadena/client": "^0.1",
+    "@kcf/kda-wallet-base": "workspace:^",
+    "axios": "^1"
+  },
+  "devDependencies": {
+    "@kadena/types": "^0.1.2"
+  }
+}

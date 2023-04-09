@@ -2,6 +2,7 @@ import { PactCommand } from "@kadena/client";
 import { isKAccount } from "@kcf/kda-wallet-base";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
 import { EckoWallet } from "@kcf/kda-wallet-eckowallet";
+import { ZelcoreWallet } from "@kcf/kda-wallet-zelcore";
 import { Web3Modal } from "@web3modal/standalone";
 import axios from "axios";
 import { mkChainKey, WalletConnectWallet } from "@kcf/kda-wallet-walletconnect";
@@ -9,14 +10,13 @@ import { mkChainKey, WalletConnectWallet } from "@kcf/kda-wallet-walletconnect";
 /** @type {?import("@kcf/kda-wallet-base").KdaWallet} */
 let CONNECTED_WALLET = null;
 
-const CHAINWEB_LOCAL_ENDPOINT =
-  "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1/local";
-
 const NETWORK_ID = "testnet04";
 const CHAIN_ID = "1";
 const TTL_S = 600;
 const GAS_LIMIT = 2500;
 const GAS_PRICE = 1e-7;
+
+const CHAINWEB_LOCAL_ENDPOINT = `https://api.testnet.chainweb.com/chainweb/0.0/${NETWORK_ID}/chain/${CHAIN_ID}/pact/api/v1/local`;
 
 /** kadena coin flip reborn project ID */
 const WALLETCONNECT_PROJECT_ID = "67ce47db9e4c2585385be3581ee3cb9d";
@@ -43,6 +43,7 @@ const ALL_WALLETS = /** @type {const} */ ([
   "chainweaver",
   "eckoWALLET",
   "WalletConnect",
+  "Zelcore",
 ]);
 
 /** @typedef {typeof ALL_WALLETS[number]} WalletKey */
@@ -54,11 +55,12 @@ const WALLET_TO_CLASS = {
   chainweaver: ChainweaverWallet,
   eckoWALLET: EckoWallet,
   WalletConnect: WalletConnectWallet,
+  Zelcore: ZelcoreWallet,
 };
 
 /**
  * Defaults to Class.connect({}) if not specified
- * @type {Partial<Record<WalletKey, () => Promise<import("@kcf/kda-wallet-base").KdaWallet>>>}
+ * @type {Record<WalletKey, () => Promise<import("@kcf/kda-wallet-base").KdaWallet>>}
  */
 const WALLET_TO_CONNECT_PROCEDURE = {
   chainweaver: connectChainweaverViaDialog,
@@ -71,6 +73,7 @@ const WALLET_TO_CONNECT_PROCEDURE = {
       // establish a new session every time
       pairingTopic: undefined,
     }),
+  Zelcore: ZelcoreWallet.connect,
 };
 
 /**
@@ -141,9 +144,13 @@ async function simulateSignedCmd(cmd) {
  */
 function accountsDisplayStr(wallet) {
   // @ts-ignore
-  const prefix = wallet.constructor.walletName();
+  const walletName = wallet.constructor.walletName();
   const { account } = wallet.accounts[0];
-  return `${prefix} (${account})`;
+  const res = `${walletName} (${account})`;
+  if (wallet.accounts.length === 1) {
+    return res;
+  }
+  return `${res} (multiple accounts)`;
 }
 
 /**
@@ -240,7 +247,7 @@ function createConnectWalletButton(walletKey) {
   return button;
 }
 
-function createConnectWalletButtons() {
+function createAllConnectWalletButtons() {
   const connectWalletButtons = ALL_WALLETS.map(createConnectWalletButton);
   /** @type {HTMLDivElement} */
   // @ts-ignore
@@ -292,7 +299,7 @@ function setupTransferForm() {
 }
 
 function onPageParsed() {
-  createConnectWalletButtons();
+  createAllConnectWalletButtons();
   setupDisconnectWalletButton();
   setupTransferForm();
 

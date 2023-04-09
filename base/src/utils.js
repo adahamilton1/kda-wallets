@@ -36,10 +36,16 @@ export function toSigningCaps({ name, args }) {
 }
 
 /**
- * Converts a pact command to signing api request payload
- * for zelcore etc.
+ * Converts a pact command to signing api request payload.
+ * This is based on the `execCmd` object schema used in pact-lang-api:
+ * https://github.com/kadena-io/pact-lang-api/blob/fd04d695e6a4ea2203308f25fc781185e0bb3e0a/pact-lang-api.js#L573
+ *
  * Assumes only one signer, and that all caps are granted to the
- * sole signer
+ * sole signer.
+ *
+ * Used by:
+ * - eckoWALLET extension
+ * - WalletConnect
  * @param {import("@kadena/client").IPactCommand} cmd
  * @return {import("@kadena/types").ISigningRequest}
  */
@@ -66,8 +72,68 @@ export function toSigningRequest({
 }
 
 /**
+ * Definition of signing request used by pact-lang-api wallet.
+ * See https://github.com/kadena-io/pact-lang-api/blob/fd04d695e6a4ea2203308f25fc781185e0bb3e0a/pact-lang-api.js#L812-L824
+ *
+ * @typedef ISigningRequestV1
+ * @property {string} code
+ * @property {Record<string, unknown>} data
+ * @property {import("@kadena/types").ISigningCap[]} caps
+ * @property {string} nonce
+ * @property {import("@kadena/client").PactCommand["publicMeta"]["chainId"]} chainId
+ * @property {number} gasLimit
+ * @property {number} gasPrice
+ * @property {number} ttl
+ * @property {string} sender
+ * @property {string} signingPubKey
+ * @property {import("@kadena/types").NetworkId} networkId
+ *
+ */
+
+/**
+ * Converts a pact command to signing api request payload.
+ * This is the original schema, based on https://github.com/kadena-io/pact-lang-api/blob/fd04d695e6a4ea2203308f25fc781185e0bb3e0a/pact-lang-api.js#L812-L824
+ *
+ * Assumes only one signer, and that all caps are granted to the sole signer
+ *
+ * Used by:
+ * - zelcore
+ *
+ * @param {import("@kadena/client").IPactCommand} cmd
+ * @return {ISigningRequestV1}
+ */
+export function toSigningRequestV1({
+  code,
+  data,
+  publicMeta: { chainId, gasLimit, gasPrice, ttl, sender },
+  signers,
+  networkId,
+}) {
+  const [signingPubKey] = signerPubkeys(signers);
+  return {
+    code,
+    data,
+    caps: signers.flatMap(({ caps }) => caps.map(toSigningCaps)),
+    nonce: Date.now().toString(),
+    chainId,
+    gasLimit,
+    gasPrice,
+    ttl,
+    sender,
+    networkId,
+    signingPubKey,
+  };
+}
+
+/**
  * Updated definition of signing request used by chainweaver.
  * See https://kadena-io.github.io/signing-api/
+ *
+ * Differences with ISigningRequestV1
+ * - has extraSigners field
+ * - no signingPubKey field
+ * - no networkId field
+ *
  * @typedef ISigningRequestV2
  * @property {string} code
  * @property {Record<string, unknown>} data
@@ -83,10 +149,14 @@ export function toSigningRequest({
  */
 
 /**
- * Converts a pact command to signing api request payload
- * for chainweaver, zelcore etc.
- * Assumes only one signer, and that all caps are granted to the
- * sole signer
+ * Converts a pact command to signing api request payload.
+ * This is the updated schema, based on https://kadena-io.github.io/signing-api/#/definitions/SigningRequest
+ *
+ * Assumes only one signer, and that all caps are granted to the sole signer
+ *
+ * Used by:
+ * - chainweaver
+ *
  * @param {import("@kadena/client").IPactCommand} cmd
  * @return {ISigningRequestV2}
  */
