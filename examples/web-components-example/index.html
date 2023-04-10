@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- TODO <script type="module" src="/index.js"></script>-->
+    <link href="index.css" rel="stylesheet" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <title>Example Kadena Wallet Web Components App</title>
+  </head>
+  <body>
+    <h1>Example Kadena Wallet Web Components App</h1>
+    <section id="wallet-select-section">TODO</section>
+    <section>
+      <h2>Simulate a Transfer on testnet</h2>
+      <p>
+        Note: this is not transfer-create, so the receiving wallet must exist
+      </p>
+      <form id="transfer-form">
+        <label>
+          <p>Amount:</p>
+          <input id="transfer-amount-input" type="number" />
+        </label>
+        <label>
+          <p>To:</p>
+          <input id="transfer-to-input" type="text" />
+        </label>
+        <button id="sign-button" type="button">Sign</button>
+        <button id="quicksign-button" type="button">QuickSign</button>
+      </form>
+    </section>
+    <section>
+      <h2>/local result:</h2>
+      <p id="local-result"></p>
+    </section>
+  </body>
+</html>

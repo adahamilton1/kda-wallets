@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "glob": "^9.3.4",
+    "vite": "^4.2.1"
+  }
+}
