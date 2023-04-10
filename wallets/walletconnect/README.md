@@ -50,7 +50,8 @@ const walletConnectWallet = await WalletConnectWallet.connect({
   signClientOptions: WALLETCONNECT_SIGN_CLIENT_OPTIONS,
   walletConnectModalController: WEB3_MODAL,
   networkId: "mainnet01",
-  pairingTopic: window.getItem(PAIRING_TOPIC_LOCAL_STORAGE_KEY) ?? undefined,
+  pairingTopic:
+    window.localStorage.getItem(PAIRING_TOPIC_LOCAL_STORAGE_KEY) ?? undefined,
 });
 
 // save pairingTopic to resume session later
