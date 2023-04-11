@@ -2,3 +2,4 @@ packages:
   - "base"
   - "examples/*"
   - "wallets/*"
+  - "web-components/*"

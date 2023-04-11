@@ -6,5 +6,8 @@
   "devDependencies": {
     "glob": "^9.3.4",
     "vite": "^4.2.1"
+  },
+  "dependencies": {
+    "@kcf/kda-wallet-connect-dialog": "workspace:^"
   }
 }

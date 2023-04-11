@@ -1,0 +1,14 @@
+{
+  "name": "@kcf/kda-wallet-web-components-base",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": [
+    "src/"
+  ],
+  "devDependencies": {
+    "@kcf/kda-wallet-base": "workspace:^"
+  }
+}

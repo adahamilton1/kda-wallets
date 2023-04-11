@@ -45,6 +45,7 @@ See `examples/web-components-example` folder for a minimal dapp using these cust
 |   ├── ... /* each subdirectory is a npm package implementing the abstract base class for a specific wallet */
 |
 └── web-components
+    ├── connect-dialog /* @kcf/kda-wallet-web-components-base */
     ├── connect-dialog /* @kcf/kda-wallet-connect-dialog */
     ├── chainweaver /* @kcf/kda-wallet-chainweaver-connect-button */
     ├── ... /* each subdirectory is a npm package implementing a connect wallet web-component button */
