@@ -13,9 +13,11 @@
     <h1>Example Kadena Wallet Web Components App</h1>
     <section id="wallet-select-section">
       <button id="connect-wallet-button">Connect Wallet</button>
+      <button id="disconnect-wallet-button">Disconnect Wallet</button>
+      <h2 id="connected-wallet-label"></h2>
     </section>
     <section>
-      <h2>Simulate a Transfer on testnet</h2>
+      <h2>Simulate a Transfer on testnet chain 1</h2>
       <p>
         Note: this is not transfer-create, so the receiving wallet must exist
       </p>
@@ -37,7 +39,7 @@
       <p id="local-result"></p>
     </section>
     <kda-wallet-connect-dialog>
-      <!-- WALLET BUTTONS HERE -->
+      <kda-wallet-chainweaver-connect-button></kda-wallet-chainweaver-connect-button>
     </kda-wallet-connect-dialog>
   </body>
 </html>

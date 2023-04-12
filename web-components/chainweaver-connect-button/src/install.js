@@ -1,4 +1,4 @@
-import { KdaWalletConnectDialog } from "./component";
+import { KdaWalletChainweaverConnectButton } from "./component";
 import { DEFAULT_ELEM_TAG } from "./consts";
 
 /**
@@ -8,5 +8,5 @@ import { DEFAULT_ELEM_TAG } from "./consts";
  */
 export function defineCustomElement(htmlTag) {
   const name = htmlTag ?? DEFAULT_ELEM_TAG;
-  window.customElements.define(name, KdaWalletConnectDialog);
+  window.customElements.define(name, KdaWalletChainweaverConnectButton);
 }

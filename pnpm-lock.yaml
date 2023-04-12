@@ -86,9 +86,21 @@ importers:
 
   examples/web-components-example:
     dependencies:
+      '@kadena/client':
+        specifier: ^0.1.10
+        version: 0.1.10
+      '@kcf/kda-wallet-chainweaver-connect-button':
+        specifier: workspace:^
+        version: link:../../web-components/chainweaver-connect-button
       '@kcf/kda-wallet-connect-dialog':
         specifier: workspace:^
         version: link:../../web-components/connect-dialog
+      '@kcf/kda-wallet-web-components-base':
+        specifier: workspace:^
+        version: link:../../web-components/base
+      axios:
+        specifier: ^1
+        version: 1.3.5
     devDependencies:
       glob:
         specifier: ^9.3.4
@@ -172,6 +184,25 @@ importers:
       '@kcf/kda-wallet-base':
         specifier: workspace:^
         version: link:../../base
+
+  web-components/chainweaver-connect-button:
+    dependencies:
+      '@kcf/kda-wallet-base':
+        specifier: workspace:^
+        version: link:../../base
+      '@kcf/kda-wallet-chainweaver':
+        specifier: workspace:^
+        version: link:../../wallets/chainweaver
+      '@kcf/kda-wallet-web-components-base':
+        specifier: workspace:^
+        version: link:../base
+    devDependencies:
+      '@kadena/client':
+        specifier: ^0.1.10
+        version: 0.1.10
+      '@kadena/types':
+        specifier: ^0.1.2
+        version: 0.1.2
 
   web-components/connect-dialog:
     dependencies:

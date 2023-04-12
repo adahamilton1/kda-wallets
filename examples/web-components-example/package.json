@@ -8,6 +8,10 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
-    "@kcf/kda-wallet-connect-dialog": "workspace:^"
+    "@kadena/client": "^0.1.10",
+    "@kcf/kda-wallet-chainweaver-connect-button": "workspace:^",
+    "@kcf/kda-wallet-connect-dialog": "workspace:^",
+    "@kcf/kda-wallet-web-components-base": "workspace:^",
+    "axios": "^1"
   }
 }
