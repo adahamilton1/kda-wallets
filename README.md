@@ -8,6 +8,8 @@ A universal wallet adapter for kadena wallets built upon [kadena.js](https://git
 - [Objective](#objective)
 - [Usage](#usage)
 - [Repo Structure](#repo-structure)
+  - [Base Packages](#base-packages)
+  - [Web Components](#web-components)
 - [FAQ](#faq)
 - [Contributing](#contributing)
 - [Donations](#donations)
