@@ -20,3 +20,82 @@ form {
 #local-result {
   padding: 1em;
 }
+
+/* WEB COMPONENT STYLES BELOW */
+
+h6 {
+  font-size: x-large;
+  margin: 0;
+}
+
+kda-wallet-connect-dialog > dialog > section,
+.kda-wallet-chainweaver-connect-dialog > section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+kda-wallet-connect-dialog > dialog > section > header,
+.kda-wallet-chainweaver-connect-dialog > section > header {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+kda-wallet-chainweaver-connect-button {
+  width: 100%;
+}
+
+kda-wallet-chainweaver-connect-button button {
+  width: 100%;
+  background: cyan;
+}
+
+.kda-wallet-chainweaver-connect-dialog input {
+  width: 100%;
+}
+
+.kda-wallet-chainweaver-connect-dialog form button {
+  width: 100%;
+}
+
+kda-wallet-eckowallet-connect-button {
+  width: 100%;
+}
+
+kda-wallet-eckowallet-connect-button button {
+  width: 100%;
+  background: purple;
+  color: white;
+}
+
+kda-wallet-eckowallet-connect-button button:disabled {
+  width: 100%;
+  background: purple;
+  color: grey;
+}
+
+kda-wallet-walletconnect-connect-button {
+  width: 100%;
+}
+
+kda-wallet-walletconnect-connect-button button {
+  width: 100%;
+  background: lightblue;
+}
+
+kda-wallet-zelcore-connect-button {
+  width: 100%;
+}
+
+kda-wallet-zelcore-connect-button button {
+  width: 100%;
+  background: black;
+  color: white;
+}
+
+kda-wallet-zelcore-connect-button button:disabled {
+  color: grey;
+}

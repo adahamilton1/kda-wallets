@@ -12,6 +12,7 @@ import {
   mkWalletErrorEvent,
   saveAutoResumeData,
 } from "@kcf/kda-wallet-web-components-base";
+import { DIALOG_ELEM_CLASS } from "./consts";
 import { DIALOG_INNER_HTML, TEMPLATE } from "./template";
 
 /**
@@ -113,6 +114,7 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
 
     const dialog = document.createElement("dialog");
     dialog.innerHTML = DIALOG_INNER_HTML;
+    dialog.classList.add(DIALOG_ELEM_CLASS);
     document.body.append(dialog);
     this.#dialog = dialog;
 
@@ -122,12 +124,14 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
       this.dialog.showModal();
       const beginConnectEvent = mkWalletBeginConnectEvent(ChainweaverWallet);
       this.dispatchEvent(beginConnectEvent);
+      this.dialog.onclose = () => {
+        const abandonConnectEvent =
+          mkWalletAbandonConnectEvent(ChainweaverWallet);
+        this.dispatchEvent(abandonConnectEvent);
+      };
     };
     this.dialogCloseButton.onclick = () => {
       this.dialog.close();
-      const abandonConnectEvent =
-        mkWalletAbandonConnectEvent(ChainweaverWallet);
-      this.dispatchEvent(abandonConnectEvent);
     };
     this.addressInput.onchange = () => this.addressInput.setCustomValidity("");
     this.form.onsubmit = this.onFormSubmit.bind(this);
@@ -195,6 +199,7 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
       accounts,
     });
     if (this.dialog.open) {
+      this.dialog.onclose = null;
       this.dialog.close();
     }
     this.#connectedWallet = wallet;
