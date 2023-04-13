@@ -1,23 +1,62 @@
 import { isKAccount, kAccountPubkey } from "@kcf/kda-wallet-base";
 import { ChainweaverWallet } from "@kcf/kda-wallet-chainweaver";
 import {
+  AUTORESUME_ATTR_NAME,
+  AUTORESUME_LOCALSTORAGE_KEY_ATTR_NAME,
+  deleteAutoResumeData,
+  loadAutoResumeData,
   mkWalletAbandonConnectEvent,
   mkWalletBeginConnectEvent,
   mkWalletConnectedEvent,
   mkWalletDisconnectedEvent,
   mkWalletErrorEvent,
+  saveAutoResumeData,
 } from "@kcf/kda-wallet-web-components-base";
 import { TEMPLATE } from "./template";
 
 /**
- * A ready-to-use "connect wallet" dialog containing "connect wallet" buttons for
- * each @kcf/kda-wallet-* wallet adapter.
+ * @typedef ChainweaverAutoResumeData
+ * @property {import("@kcf/kda-wallet-base").AccountsList} accounts
+ */
+
+/**
+ * A ready-to-use chainweaver connect wallet button.
  *
- * This class exposes the connected wallet through its `connectedWallet` property
+ * Connects to the k: account manually entered by the user in an opened dialog.
+ *
+ * This element exposes the connected wallet through its `connectedWallet` property
  */
 export class KdaWalletChainweaverConnectButton extends HTMLElement {
   /** @type {?ChainweaverWallet} */
   #connectedWallet;
+
+  static get observedAttributes() {
+    return [AUTORESUME_ATTR_NAME, AUTORESUME_LOCALSTORAGE_KEY_ATTR_NAME];
+  }
+
+  attributeChangedCallback(name, oldValue) {
+    switch (name) {
+      case AUTORESUME_LOCALSTORAGE_KEY_ATTR_NAME:
+        this.updateAutoResumeData(oldValue);
+        break;
+      case AUTORESUME_ATTR_NAME:
+        this.updateAutoResumeData();
+        break;
+      default:
+        break;
+    }
+  }
+
+  /** @return {boolean} */
+  get autoresume() {
+    return this.hasAttribute(AUTORESUME_ATTR_NAME);
+  }
+
+  get autoresumekey() {
+    return (
+      this.getAttribute(AUTORESUME_LOCALSTORAGE_KEY_ATTR_NAME) ?? undefined
+    );
+  }
 
   get connectedWallet() {
     return this.#connectedWallet;
@@ -85,9 +124,14 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
     };
     this.addressInput.onchange = () => this.addressInput.setCustomValidity("");
     this.form.onsubmit = this.onFormSubmit.bind(this);
-    this.checkInstalled();
+    this.checkInstalled().then((isInstalled) => {
+      if (isInstalled && this.autoresume) {
+        this.tryAutoResume();
+      }
+    });
   }
 
+  /** @returns {Promise<boolean>} if wallet is installed */
   async checkInstalled() {
     const isInstalled = await ChainweaverWallet.isInstalled();
     if (isInstalled) {
@@ -97,6 +141,18 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
     } else if (!this.button.hasAttribute("disabled")) {
       this.button.setAttribute("disabled", "1");
     }
+    return isInstalled;
+  }
+
+  async disconnect() {
+    if (!this.connectedWallet) {
+      return;
+    }
+    await this.connectedWallet.disconnect();
+    deleteAutoResumeData(ChainweaverWallet, this.autoresumekey);
+    const disconnectedEvent = mkWalletDisconnectedEvent(this.connectedWallet);
+    this.#connectedWallet = null;
+    this.dispatchEvent(disconnectedEvent);
   }
 
   /**
@@ -118,15 +174,7 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
         );
         return;
       }
-      const wallet = await ChainweaverWallet.connect({
-        accounts: [{ account, pubKey: kAccountPubkey(account) }],
-      });
-      if (this.dialog.open) {
-        this.dialog.close();
-      }
-      this.#connectedWallet = wallet;
-      const connectedEvent = mkWalletConnectedEvent(wallet);
-      this.dispatchEvent(connectedEvent);
+      await this.connect([{ account, pubKey: kAccountPubkey(account) }]);
     } catch (err) {
       const errEvent = mkWalletErrorEvent(err);
       this.dispatchEvent(errEvent);
@@ -134,13 +182,57 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
     }
   }
 
-  async disconnect() {
-    if (!this.connectedWallet) {
+  /** @param {import("@kcf/kda-wallet-base").AccountsList} accounts */
+  async connect(accounts) {
+    const wallet = await ChainweaverWallet.connect({
+      accounts,
+    });
+    if (this.dialog.open) {
+      this.dialog.close();
+    }
+    this.#connectedWallet = wallet;
+    const connectedEvent = mkWalletConnectedEvent(wallet);
+    this.dispatchEvent(connectedEvent);
+    this.updateAutoResumeData();
+  }
+
+  async tryAutoResume() {
+    const loaded = loadAutoResumeData(ChainweaverWallet, this.autoresumekey);
+    if (loaded === null) {
       return;
     }
-    await this.connectedWallet.disconnect();
-    const disconnectedEvent = mkWalletDisconnectedEvent(this.connectedWallet);
-    this.#connectedWallet = null;
-    this.dispatchEvent(disconnectedEvent);
+    /** @type {import("@kcf/kda-wallet-web-components-base").AutoResumeData<ChainweaverAutoResumeData>} */
+    const {
+      data: { accounts },
+    } = loaded;
+    try {
+      await this.connect(accounts);
+    } catch (err) {
+      const errEvent = mkWalletErrorEvent(err);
+      this.dispatchEvent(errEvent);
+      throw err;
+    }
+  }
+
+  /**
+   * Updates local storage auto resume data
+   * @param {string} [oldAutoResumeKeyToDelete]
+   */
+  updateAutoResumeData(oldAutoResumeKeyToDelete) {
+    if (oldAutoResumeKeyToDelete !== undefined) {
+      deleteAutoResumeData(ChainweaverWallet, oldAutoResumeKeyToDelete);
+    }
+    if (!this.autoresume) {
+      deleteAutoResumeData(ChainweaverWallet, this.autoresumekey);
+      return;
+    }
+    if (!this.#connectedWallet) {
+      return;
+    }
+    /** @type {ChainweaverAutoResumeData} */
+    const data = {
+      accounts: this.#connectedWallet.accounts,
+    };
+    saveAutoResumeData(ChainweaverWallet, data, this.autoresumekey);
   }
 }
