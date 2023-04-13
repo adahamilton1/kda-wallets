@@ -10,6 +10,7 @@
   "dependencies": {
     "@kadena/client": "^0.1.10",
     "@kcf/kda-wallet-chainweaver-connect-button": "workspace:^",
+    "@kcf/kda-wallet-eckowallet-connect-button": "workspace:^",
     "@kcf/kda-wallet-walletconnect-connect-button": "workspace:^",
     "@kcf/kda-wallet-connect-dialog": "workspace:^",
     "@kcf/kda-wallet-web-components-base": "workspace:^",

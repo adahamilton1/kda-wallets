@@ -95,6 +95,9 @@ importers:
       '@kcf/kda-wallet-connect-dialog':
         specifier: workspace:^
         version: link:../../web-components/connect-dialog
+      '@kcf/kda-wallet-eckowallet-connect-button':
+        specifier: workspace:^
+        version: link:../../web-components/eckowallet-connect-button
       '@kcf/kda-wallet-walletconnect-connect-button':
         specifier: workspace:^
         version: link:../../web-components/walletconnect-connect-button
@@ -217,6 +220,10 @@ importers:
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../base
+    devDependencies:
+      '@kcf/kda-wallet-base':
+        specifier: workspace:^
+        version: link:../../base
 
   web-components/walletconnect-connect-button:
     dependencies:
