@@ -95,6 +95,9 @@ importers:
       '@kcf/kda-wallet-connect-dialog':
         specifier: workspace:^
         version: link:../../web-components/connect-dialog
+      '@kcf/kda-wallet-walletconnect-connect-button':
+        specifier: workspace:^
+        version: link:../../web-components/walletconnect-connect-button
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../../web-components/base
@@ -219,6 +222,34 @@ importers:
       '@kadena/types':
         specifier: ^0.1.2
         version: 0.1.2
+
+  web-components/walletconnect-connect-button:
+    dependencies:
+      '@kcf/kda-wallet-base':
+        specifier: workspace:^
+        version: link:../../base
+      '@kcf/kda-wallet-walletconnect':
+        specifier: workspace:^
+        version: link:../../wallets/walletconnect
+      '@kcf/kda-wallet-web-components-base':
+        specifier: workspace:^
+        version: link:../base
+      '@web3modal/standalone':
+        specifier: ^2
+        version: 2.2.2(react@18.2.0)
+      events:
+        specifier: ^3
+        version: 3.3.0
+    devDependencies:
+      '@kadena/client':
+        specifier: ^0.1.10
+        version: 0.1.10
+      '@kadena/types':
+        specifier: ^0.1.2
+        version: 0.1.2
+      '@walletconnect/types':
+        specifier: ^2.6.2
+        version: 2.6.2(@types/node@18.15.11)(typescript@5.0.4)
 
 packages:
 

@@ -1,4 +1,4 @@
-# @kcf/kda-wallet-connect-dialog
+# @kcf/kda-wallet-chainweaver-connect-button
 
 ## Usage Notes
 
