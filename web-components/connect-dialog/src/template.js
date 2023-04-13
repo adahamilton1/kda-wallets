@@ -4,9 +4,9 @@
 export const TEMPLATE = `
   <dialog>
     <section>
-      <header style="display: flex; align-items: center; gap: 1em;">
+      <header>
         <h6>Connect Wallet</h6>
-        <button aria-label="close" type="button" style="background:none; border:none; cursor:pointer;">
+        <button aria-label="close" type="button">
           x
         </button>
       </header>
