@@ -244,3 +244,15 @@ export function isKAccount(account) {
 export function kAccountPubkey(kAccount) {
   return kAccount.substring(2);
 }
+
+/**
+ * @typedef {Exclude<import("@kadena/types").ChainwebNetworkId, undefined>} NonNullChainwebNetworkId
+ */
+
+/**
+ * @param {string} s
+ * @returns {s is NonNullChainwebNetworkId}
+ */
+export function isChainwebNetworkId(s) {
+  return s === "mainnet01" || s === "testnet04" || s === "development";
+}

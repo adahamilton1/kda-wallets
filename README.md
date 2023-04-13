@@ -8,6 +8,8 @@ A universal wallet adapter for kadena wallets built upon [kadena.js](https://git
 - [Objective](#objective)
 - [Usage](#usage)
 - [Repo Structure](#repo-structure)
+  - [Base Packages](#base-packages)
+  - [Web Components](#web-components)
 - [FAQ](#faq)
 - [Contributing](#contributing)
 - [Donations](#donations)
@@ -18,20 +20,37 @@ To create a simple, minimal common interface across all kadena wallets for easy 
 
 ## Usage
 
+### Base Packages
+
 - `@kcf/kda-wallet-base` contains the base `KdaWallet` abstract base class.
 - All individual wallet packages `@kcf/kda-wallet-<wallet-name>` implement this class
 - Dapps can now use the common `KdaWallet` type and its interfaces for common functionality such as signing transactions.
 
-See `example/` folder for a minimal dapp using this library.
+See `examples/minimal-example` folder for a minimal dapp using this library.
+
+### Web Components
+
+The web-components folder contains ready-to-use custom elements that can be dropped in to an existing frontend project.
+
+See `examples/web-components-example` folder for a minimal dapp using these custom elements or the READMEs of each individual package for detailed documentation.
 
 ## Repo Structure
 
 ```
 ├── base /* @kcf/kda-wallet-base package containing the base KdaWallet abstract base class and common util functions */
-├── example /* a simple webapp demonstrating all implemented wallets */
-└── wallets
-    ├── chainweaver /* @kcf/kda-wallet-chainweaver */
-    ├── ... /* each subdirectory is a npm package implementing the abstract base class for a specific wallet */
+├── examples
+|   ├── minimal-example /* a simple webapp demonstrating all implemented wallets */
+|   ├── web-components-example /* a simple webapp using the implemented web-components */
+|
+├── wallets
+|   ├── chainweaver /* @kcf/kda-wallet-chainweaver */
+|   ├── ... /* each subdirectory is a npm package implementing the abstract base class for a specific wallet */
+|
+└── web-components
+    ├── connect-dialog /* @kcf/kda-wallet-web-components-base */
+    ├── connect-dialog /* @kcf/kda-wallet-connect-dialog */
+    ├── chainweaver /* @kcf/kda-wallet-chainweaver-connect-button */
+    ├── ... /* each subdirectory is a npm package implementing a connect wallet web-component button */
 ```
 
 ## FAQ

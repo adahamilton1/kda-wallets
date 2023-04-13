@@ -1,6 +1,6 @@
 {
-  "name": "@kcf/kda-wallet-base",
-  "version": "1.1.0",
+  "name": "@kcf/kda-wallet-web-components-base",
+  "version": "1.0.0",
   "main": "./src/index.js",
   "exports": "./src/index.js",
   "type": "module",
@@ -9,7 +9,6 @@
     "src/"
   ],
   "devDependencies": {
-    "@kadena/client": "^0.1.10",
-    "@kadena/types": "^0.1.2"
+    "@kcf/kda-wallet-base": "workspace:^"
   }
 }

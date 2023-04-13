@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "glob": "^9.3.4",
+    "vite": "^4.2.1"
+  },
+  "dependencies": {
+    "@kadena/client": "^0.1.10",
+    "@kcf/kda-wallet-chainweaver-connect-button": "workspace:^",
+    "@kcf/kda-wallet-connect-dialog": "workspace:^",
+    "@kcf/kda-wallet-eckowallet-connect-button": "workspace:^",
+    "@kcf/kda-wallet-walletconnect-connect-button": "workspace:^",
+    "@kcf/kda-wallet-web-components-base": "workspace:^",
+    "@kcf/kda-wallet-zelcore-connect-button": "workspace:^",
+    "axios": "^1"
+  }
+}
