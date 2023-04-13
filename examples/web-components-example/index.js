@@ -3,6 +3,7 @@ import { defineCustomElement as defineChainweaverConnectButton } from "@kcf/kda-
 import { defineCustomElement as defineEckoWalletConnectButton } from "@kcf/kda-wallet-eckowallet-connect-button";
 import { defineCustomElement as defineConnectDialog } from "@kcf/kda-wallet-connect-dialog";
 import { defineCustomElement as defineWalletconnectConnectButton } from "@kcf/kda-wallet-walletconnect-connect-button";
+import { defineCustomElement as defineZelcoreConnectButton } from "@kcf/kda-wallet-zelcore-connect-button";
 import {
   WALLET_ABANDON_CONNECT_EVENT_NAME,
   WALLET_BEGIN_CONNECT_EVENT_NAME,
@@ -192,8 +193,9 @@ function onPageParsed() {
   // web components define
   defineConnectDialog();
   defineChainweaverConnectButton();
-  defineWalletconnectConnectButton();
   defineEckoWalletConnectButton();
+  defineWalletconnectConnectButton();
+  defineZelcoreConnectButton();
 
   setupConnectWalletButton();
   setupDisconnectWalletButton();
