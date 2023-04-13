@@ -1,9 +1,13 @@
 import { PactCommand } from "@kadena/client";
 import { defineCustomElement as defineChainweaverConnectButton } from "@kcf/kda-wallet-chainweaver-connect-button";
 import { defineCustomElement as defineConnectDialog } from "@kcf/kda-wallet-connect-dialog";
+import { defineCustomElement as defineWalletconnectConnectButton } from "@kcf/kda-wallet-walletconnect-connect-button";
 import {
+  WALLET_ABANDON_CONNECT_EVENT_NAME,
+  WALLET_BEGIN_CONNECT_EVENT_NAME,
   WALLET_CONNECTED_EVENT_NAME,
   WALLET_DISCONNECTED_EVENT_NAME,
+  WALLET_ERROR_EVENT_NAME,
 } from "@kcf/kda-wallet-web-components-base";
 import axios from "axios";
 
@@ -187,6 +191,7 @@ function onPageParsed() {
   // web components define
   defineConnectDialog();
   defineChainweaverConnectButton();
+  defineWalletconnectConnectButton();
 
   setupConnectWalletButton();
   setupDisconnectWalletButton();
@@ -197,6 +202,9 @@ function onPageParsed() {
     WALLET_DISCONNECTED_EVENT_NAME,
     onWalletDisconnected
   );
+  document.addEventListener(WALLET_BEGIN_CONNECT_EVENT_NAME, console.log);
+  document.addEventListener(WALLET_ABANDON_CONNECT_EVENT_NAME, console.log);
+  document.addEventListener(WALLET_ERROR_EVENT_NAME, console.error);
 }
 
 onPageParsed();

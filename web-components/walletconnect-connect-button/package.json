@@ -1,0 +1,23 @@
+{
+  "name": "@kcf/kda-wallet-walletconnect-connect-button",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": [
+    "src/"
+  ],
+  "dependencies": {
+    "@kcf/kda-wallet-base": "workspace:^",
+    "@kcf/kda-wallet-walletconnect": "workspace:^",
+    "@kcf/kda-wallet-web-components-base": "workspace:^",
+    "events": "^3",
+    "@web3modal/standalone": "^2"
+  },
+  "devDependencies": {
+    "@kadena/client": "^0.1.10",
+    "@kadena/types": "^0.1.2",
+    "@walletconnect/types": "^2.6.2"
+  }
+}

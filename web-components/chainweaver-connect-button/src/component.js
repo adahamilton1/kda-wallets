@@ -12,7 +12,7 @@ import {
   mkWalletErrorEvent,
   saveAutoResumeData,
 } from "@kcf/kda-wallet-web-components-base";
-import { TEMPLATE } from "./template";
+import { DIALOG_INNER_HTML, TEMPLATE } from "./template";
 
 /**
  * @typedef ChainweaverAutoResumeData
@@ -29,6 +29,9 @@ import { TEMPLATE } from "./template";
 export class KdaWalletChainweaverConnectButton extends HTMLElement {
   /** @type {?ChainweaverWallet} */
   #connectedWallet;
+
+  /** @type {HTMLDialogElement} */
+  #dialog;
 
   static get observedAttributes() {
     return [AUTORESUME_ATTR_NAME, AUTORESUME_LOCALSTORAGE_KEY_ATTR_NAME];
@@ -70,8 +73,7 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
 
   /** @returns {HTMLDialogElement} */
   get dialog() {
-    // @ts-ignore
-    return this.querySelector("dialog");
+    return this.#dialog;
   }
 
   /** @returns {HTMLDivElement} */
@@ -108,6 +110,11 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
     super();
     this.#connectedWallet = null;
     this.innerHTML = TEMPLATE;
+
+    const dialog = document.createElement("dialog");
+    dialog.innerHTML = DIALOG_INNER_HTML;
+    document.body.append(dialog);
+    this.#dialog = dialog;
 
     // attach listeners in ctor, not connectedCallback
     // since we dont want to reattach them everytime this elem moves
@@ -206,6 +213,8 @@ export class KdaWalletChainweaverConnectButton extends HTMLElement {
       data: { accounts },
     } = loaded;
     try {
+      const beginConnectEvent = mkWalletBeginConnectEvent(ChainweaverWallet);
+      this.dispatchEvent(beginConnectEvent);
       await this.connect(accounts);
     } catch (err) {
       const errEvent = mkWalletErrorEvent(err);

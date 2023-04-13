@@ -1,5 +1,6 @@
 import {
   WALLET_ABANDON_CONNECT_EVENT_NAME,
+  WALLET_BEGIN_CONNECT_EVENT_NAME,
   WALLET_CONNECTED_EVENT_NAME,
   WALLET_ERROR_EVENT_NAME,
 } from "@kcf/kda-wallet-web-components-base";
@@ -16,9 +17,6 @@ import { TEMPLATE } from "./template";
  * each @kcf/kda-wallet-* wallet adapter.
  *
  * This class exposes the connected wallet through its `connectedWallet` property.
- *
- * Note:
- * - dialog must stay open for entirety of connect procedure else content within will not be visible
  */
 export class KdaWalletConnectDialog extends HTMLElement {
   /** @returns {?import("@kcf/kda-wallet-base").KdaWallet} */
@@ -87,6 +85,10 @@ export class KdaWalletConnectDialog extends HTMLElement {
     // since we dont want to reattach them everytime this elem moves
 
     this.closeButton.onclick = this.close.bind(this);
+    this.addEventListener(
+      WALLET_BEGIN_CONNECT_EVENT_NAME,
+      this.close.bind(this)
+    );
     this.addEventListener(
       WALLET_ABANDON_CONNECT_EVENT_NAME,
       this.close.bind(this)

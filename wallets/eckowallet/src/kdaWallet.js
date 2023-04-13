@@ -6,6 +6,7 @@ import {
 } from "@kcf/kda-wallet-base";
 
 /**
+ * TODO: import this type from base package instead (BREAKING)
  * @typedef {Exclude<import("@kadena/types").ChainwebNetworkId, undefined>} NonNullChainwebNetworkId
  */
 
