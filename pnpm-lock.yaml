@@ -104,6 +104,9 @@ importers:
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../../web-components/base
+      '@kcf/kda-wallet-zelcore-connect-button':
+        specifier: workspace:^
+        version: link:../../web-components/zelcore-connect-button
       axios:
         specifier: ^1
         version: 1.3.5
@@ -214,16 +217,15 @@ importers:
 
   web-components/eckowallet-connect-button:
     dependencies:
+      '@kcf/kda-wallet-base':
+        specifier: workspace:^
+        version: link:../../base
       '@kcf/kda-wallet-eckowallet':
         specifier: workspace:^
         version: link:../../wallets/eckowallet
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../base
-    devDependencies:
-      '@kcf/kda-wallet-base':
-        specifier: workspace:^
-        version: link:../../base
 
   web-components/walletconnect-connect-button:
     dependencies:
@@ -246,6 +248,15 @@ importers:
       '@walletconnect/types':
         specifier: ^2.6.2
         version: 2.6.2(@types/node@18.15.11)(typescript@5.0.4)
+
+  web-components/zelcore-connect-button:
+    dependencies:
+      '@kcf/kda-wallet-web-components-base':
+        specifier: workspace:^
+        version: link:../base
+      '@kcf/kda-wallet-zelcore':
+        specifier: workspace:^
+        version: link:../../wallets/zelcore
 
 packages:
 
