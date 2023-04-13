@@ -33,6 +33,11 @@ See `@kcf/kda-wallet-web-components-base` for custom events' detail schema
 ```
 
 ```js
+import { defineCustomElement } from "@kcf/kda-wallet-zelcore-connect-button";
+
+// must be called before use
+defineCustomElement();
+
 const btn = document.querySelector("kda-wallet-zelcore-connect-button");
 const wallet = btn.connectedWallet;
 if (wallet) {

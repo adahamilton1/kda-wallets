@@ -34,6 +34,11 @@ A ready-to-use "connect wallet" dialog containing "connect wallet" buttons for e
 ```
 
 ```js
+import { defineCustomElement } from "@kcf/kda-wallet-connect-dialog";
+
+// must be called before use
+defineCustomElement();
+
 const dialog = document.querySelector("kda-wallet-connect-dialog");
 const wallet = dialog.connectedWallet;
 if (wallet) {
