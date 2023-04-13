@@ -30,9 +30,9 @@ import { TEMPLATE } from "./template";
  */
 
 /**
- * A ready-to-use chainweaver connect wallet button.
+ * A ready-to-use WalletConnect connect wallet button.
  *
- * Connects to the k: account manually entered by the user in an opened dialog.
+ * Uses a standalone web3modal to present the wallet connect QR code modal
  *
  * This element exposes the connected wallet through its `connectedWallet` property
  */
