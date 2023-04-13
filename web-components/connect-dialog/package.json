@@ -11,9 +11,5 @@
   "dependencies": {
     "@kcf/kda-wallet-base": "workspace:^",
     "@kcf/kda-wallet-web-components-base": "workspace:^"
-  },
-  "devDependencies": {
-    "@kadena/client": "^0.1.10",
-    "@kadena/types": "^0.1.2"
   }
 }

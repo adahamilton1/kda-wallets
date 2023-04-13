@@ -199,13 +199,6 @@ importers:
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../base
-    devDependencies:
-      '@kadena/client':
-        specifier: ^0.1.10
-        version: 0.1.10
-      '@kadena/types':
-        specifier: ^0.1.2
-        version: 0.1.2
 
   web-components/connect-dialog:
     dependencies:
@@ -215,13 +208,15 @@ importers:
       '@kcf/kda-wallet-web-components-base':
         specifier: workspace:^
         version: link:../base
-    devDependencies:
-      '@kadena/client':
-        specifier: ^0.1.10
-        version: 0.1.10
-      '@kadena/types':
-        specifier: ^0.1.2
-        version: 0.1.2
+
+  web-components/eckowallet-connect-button:
+    dependencies:
+      '@kcf/kda-wallet-eckowallet':
+        specifier: workspace:^
+        version: link:../../wallets/eckowallet
+      '@kcf/kda-wallet-web-components-base':
+        specifier: workspace:^
+        version: link:../base
 
   web-components/walletconnect-connect-button:
     dependencies:
@@ -241,12 +236,6 @@ importers:
         specifier: ^3
         version: 3.3.0
     devDependencies:
-      '@kadena/client':
-        specifier: ^0.1.10
-        version: 0.1.10
-      '@kadena/types':
-        specifier: ^0.1.2
-        version: 0.1.2
       '@walletconnect/types':
         specifier: ^2.6.2
         version: 2.6.2(@types/node@18.15.11)(typescript@5.0.4)

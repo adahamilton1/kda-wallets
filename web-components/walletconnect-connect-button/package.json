@@ -16,8 +16,6 @@
     "@web3modal/standalone": "^2"
   },
   "devDependencies": {
-    "@kadena/client": "^0.1.10",
-    "@kadena/types": "^0.1.2",
     "@walletconnect/types": "^2.6.2"
   }
 }
