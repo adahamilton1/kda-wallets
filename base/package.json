@@ -5,6 +5,8 @@
   "exports": "./src/index.js",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": "github:adahamilton1/kda-wallets",
+  "homepage": "https://github.com/adahamilton1/kda-wallets#readme",
   "files": [
     "src/"
   ],
