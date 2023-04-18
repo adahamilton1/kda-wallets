@@ -1,6 +1,6 @@
 {
   "name": "@kcf/kda-wallet-connect-dialog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./src/index.js",
   "exports": "./src/index.js",
   "type": "module",

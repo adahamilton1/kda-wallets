@@ -73,13 +73,19 @@ export class KdaWalletConnectDialog extends HTMLElement {
   constructor() {
     super();
 
-    // convert html string to document fragment
-    const oldInnerHtml = this.innerHTML;
-    const temporaryTemplate = document.createElement("template");
-    temporaryTemplate.innerHTML = oldInnerHtml;
-
+    // Move original children into container
+    // DO NOT reset innerHTML since this recreates the elements
+    const children = [];
+    // for .. of this.children doesnt work with removes
+    while (this.hasChildNodes()) {
+      if (this.firstChild) {
+        children.push(this.removeChild(this.firstChild));
+      }
+    }
     this.innerHTML = TEMPLATE;
-    this.container.appendChild(temporaryTemplate.content);
+    children.forEach((connectWalletButton) =>
+      this.container.appendChild(connectWalletButton)
+    );
 
     // attach listeners in ctor, not connectedCallback
     // since we dont want to reattach them everytime this elem moves
