@@ -46,16 +46,10 @@ export class ZelcoreWallet extends KdaWallet {
     });
   }
 
-  /**
-   * @override
-   */
   static walletName() {
     return "Zelcore";
   }
 
-  /**
-   * @override
-   */
   static async isInstalled() {
     try {
       // error will show up on console but will not throw
@@ -70,7 +64,6 @@ export class ZelcoreWallet extends KdaWallet {
   }
 
   /**
-   * @override
    * @returns {Promise<ZelcoreWallet>}
    */
   static async connect() {
@@ -93,14 +86,10 @@ export class ZelcoreWallet extends KdaWallet {
     return new ZelcoreWallet({ accounts });
   }
 
-  /**
-   * @override
-   */
   // eslint-disable-next-line class-methods-use-this, no-empty-function
   async disconnect() {}
 
   /**
-   * @override
    * @param {import("@kadena/client").PactCommand} cmd
    * @returns {Promise<import("@kadena/types/src/PactCommand").ICommand>}
    */

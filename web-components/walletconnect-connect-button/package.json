@@ -14,10 +14,13 @@
     "@kcf/kda-wallet-base": "workspace:^",
     "@kcf/kda-wallet-walletconnect": "workspace:^",
     "@kcf/kda-wallet-web-components-base": "workspace:^",
-    "events": "^3",
-    "@web3modal/standalone": "^2"
+    "@web3modal/standalone": "^2",
+    "events": "^3"
   },
   "devDependencies": {
-    "@walletconnect/types": "^2.6.2"
+    "@wagmi/chains": "^0.2.18",
+    "@walletconnect/types": "^2.6.2",
+    "@web3modal/ethereum": "^2.3.3",
+    "ethers": "5"
   }
 }
