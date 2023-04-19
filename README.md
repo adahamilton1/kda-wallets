@@ -1,3 +1,12 @@
+<div align="center">
+
+[![npm-version](https://img.shields.io/npm/v/@kcf/kda-wallet-base?style=flat)](https://npmjs.com/@kcf/kda-wallet-base)
+[![npm-license](https://img.shields.io/npm/l/@kcf/kda-wallet-base?style=flat)](https://npmjs.com/@kcf/kda-wallet-base)
+[![TypeDoc](https://img.shields.io/badge/TypeDoc-%F0%9F%94%97-blueviolet)](https://kda-wallets.vercel.app/)
+[![Twitter](https://img.shields.io/twitter/follow/kcfreborn)](https://twitter.com/kcfreborn)
+
+</div>
+
 # @kcf/kda-wallet
 
 A universal wallet adapter for kadena wallets built upon [kadena.js](https://github.com/kadena-community/kadena.js)
@@ -70,7 +79,9 @@ The library is written in js with jsdoc typedefs and distributed directly as src
 
 ## Documentation
 
-`pnpm typedoc` to generate typedocs locally.
+TypeDoc hosted at https://kda-wallets.vercel.app/
+
+`pnpm typedoc` to generate TypeDocs locally.
 
 ## Contributing
 
