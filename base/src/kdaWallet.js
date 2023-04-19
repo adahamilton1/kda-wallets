@@ -8,7 +8,7 @@ import { UnimplementedError } from "./errs";
  */
 
 /**
- * Array of {account, pubKey} that the wallet can sign for
+ * Array of \{account, pubKey\} that the wallet can sign for
  * Most wallets will just have one item in this array.
  * @typedef {Array<AccountPubkey>} AccountsList
  */

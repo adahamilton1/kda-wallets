@@ -109,15 +109,11 @@ export class WalletConnectWallet extends KdaWallet {
     return "WalletConnect";
   }
 
-  /**
-   * @override
-   */
   static async isInstalled() {
     return true;
   }
 
   /**
-   * @override
    * @param {WalletConnectConnectArgs} args
    */
   static async connect({
@@ -165,9 +161,8 @@ export class WalletConnectWallet extends KdaWallet {
 
   /**
    * TODO: somehow this throws
-   * { message: "Unsupported wc_ method. wc_pairingDelete", code: 10001 }
+   * \{ message: "Unsupported wc_ method. wc_pairingDelete", code: 10001 \}
    * but it looks like its still getting disconnected properly
-   * @override
    */
   async disconnect() {
     await Promise.all(
@@ -184,7 +179,6 @@ export class WalletConnectWallet extends KdaWallet {
   }
 
   /**
-   * @override
    * @param {import("@kadena/client").PactCommand} cmd
    * @returns {Promise<import("@kadena/types/src/PactCommand").ICommand>}
    */

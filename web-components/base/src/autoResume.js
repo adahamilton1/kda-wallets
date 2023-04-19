@@ -7,7 +7,7 @@ export const DEFAULT_AUTORESUME_LOCALSTORAGE_KEY = `${PKG_PREFIX}:autoResumeData
 
 /**
  * @template T
- * @typedef AutoResumeData<T>
+ * @typedef AutoResumeData
  * @property {string} walletName
  * @property {T} data
  */

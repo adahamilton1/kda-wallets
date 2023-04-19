@@ -1,0 +1,13 @@
+// only for typedoc
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "outDir": "out/",
+    // for `import EventEmitter from "events"`
+    "allowSyntheticDefaultImports": true
+  }
+}

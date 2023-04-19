@@ -11,6 +11,7 @@ A universal wallet adapter for kadena wallets built upon [kadena.js](https://git
   - [Base Packages](#base-packages)
   - [Web Components](#web-components)
 - [FAQ](#faq)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [Donations](#donations)
 
@@ -66,6 +67,10 @@ We didn't 😱. This is why the args passed to `KdaWallet.connect()` is differen
 ### Is this library typescript compatible?
 
 The library is written in js with jsdoc typedefs and distributed directly as src. This should mean that you will get the type information when using it in typescript projects as well.
+
+## Documentation
+
+`pnpm typedoc` to generate typedocs locally.
 
 ## Contributing
 

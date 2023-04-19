@@ -1,0 +1,4 @@
+{
+  "entryPoints": ["base", "wallets/*", "web-components/*"],
+  "entryPointStrategy": "packages"
+}
