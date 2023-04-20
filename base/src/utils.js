@@ -45,7 +45,7 @@ export function toSigningCaps({ name, args }) {
  *
  * Used by:
  * - eckoWALLET extension
- * - WalletConnect
+ * - eckoWALLET WalletConnect
  * @param {import("@kadena/client").IPactCommand} cmd
  * @return {import("@kadena/types").ISigningRequest}
  */
@@ -97,6 +97,7 @@ export function toSigningRequest({
  * Assumes only one signer, and that all caps are granted to the sole signer
  *
  * Used by:
+ * - WalletConnect wallets implementing KIP-0017
  * - zelcore
  *
  * @param {import("@kadena/client").IPactCommand} cmd
