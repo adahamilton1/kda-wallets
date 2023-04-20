@@ -71,16 +71,19 @@ export class EckoWallet extends KdaWallet {
     this.#networkId = args.networkId;
   }
 
+  /** @override */
   static walletName() {
     return "eckoWALLET";
   }
 
+  /** @override */
   static async isInstalled() {
     // @ts-ignore
     return Boolean(window && window.kadena && window.kadena.isKadena);
   }
 
   /**
+   * @override
    * @param {EckoWalletConnectArgs} _args
    */
   static async connect({ networkId }) {
@@ -104,6 +107,7 @@ export class EckoWallet extends KdaWallet {
     return ecko;
   }
 
+  /** @override */
   async disconnect() {
     // @ts-ignore
     const { kadena } = window;
@@ -114,6 +118,7 @@ export class EckoWallet extends KdaWallet {
   }
 
   /**
+   * @override
    * @param {import("@kadena/client").PactCommand} cmd
    * @returns {Promise<import("@kadena/types/src/PactCommand").ICommand>}
    */
@@ -138,6 +143,7 @@ export class EckoWallet extends KdaWallet {
    * TODO: currently keeps throwing
    * \{status":"fail","error":"QuickSign fail: wallet public key not found"\}
    * check ecko discord
+   * @override
    * @param {Array<import("@kadena/client").PactCommand>} cmds
    * @returns {Promise<Array<import("@kadena/types/src/PactCommand").ICommand>>}
    */

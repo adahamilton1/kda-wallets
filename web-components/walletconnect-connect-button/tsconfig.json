@@ -8,6 +8,10 @@
     "strictNullChecks": true,
     "outDir": "out/",
     // for `import EventEmitter from "events"`
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@kcf/kda-wallet-base": ["../../base"],
+      "@kcf/kda-wallet-web-components-base": ["../base"]
+    }
   }
 }

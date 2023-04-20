@@ -34,10 +34,12 @@ export class ChainweaverWallet extends KdaWallet {
     });
   }
 
+  /** @override */
   static walletName() {
     return "chainweaver";
   }
 
+  /** @override */
   static async isInstalled() {
     try {
       // error will show up on console but will not throw
@@ -52,6 +54,7 @@ export class ChainweaverWallet extends KdaWallet {
   }
 
   /**
+   * @override
    * @param {ChainweaverConnectArgs} args
    * @returns {Promise<ChainweaverWallet>}
    */
@@ -64,10 +67,12 @@ export class ChainweaverWallet extends KdaWallet {
     return new ChainweaverWallet({ accounts });
   }
 
+  /** @override */
   // eslint-disable-next-line class-methods-use-this, no-empty-function
   async disconnect() {}
 
   /**
+   * @override
    * @param {import("@kadena/client").PactCommand} cmd
    * @returns {Promise<import("@kadena/types/src/PactCommand").ICommand>}
    */
@@ -81,6 +86,7 @@ export class ChainweaverWallet extends KdaWallet {
   }
 
   /**
+   * @override
    * @param {Array<import("@kadena/client").PactCommand>} cmds
    * @returns {Promise<Array<import("@kadena/types/src/PactCommand").ICommand>>}
    */

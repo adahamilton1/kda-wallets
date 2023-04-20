@@ -6,6 +6,9 @@
     "module": "ES2022",
     "moduleResolution": "node",
     "strictNullChecks": true,
-    "outDir": "out/"
+    "outDir": "out/",
+    "paths": {
+      "@kcf/kda-wallet-base": ["../../base"]
+    }
   }
 }
