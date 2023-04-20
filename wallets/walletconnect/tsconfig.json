@@ -7,6 +7,9 @@
     "moduleResolution": "node",
     "strictNullChecks": true,
     "outDir": "out/",
+    "paths": {
+      "@kcf/kda-wallet-base": ["../../base"]
+    },
     // for `import EventEmitter from "events"`
     "allowSyntheticDefaultImports": true
   }
