@@ -143,6 +143,8 @@ export class WalletConnectWallet extends KdaWallet {
     pairingTopic,
   }) {
     const signClient = await SignClient.init(signClientOptions);
+    // TODO: connect() still pops up an approval on wallet despite
+    // existing pairing. Find out if theres a way to remove this annoyance
     const { uri, approval } = await signClient.connect({
       requiredNamespaces: mkRequiredNamespaces(networkId),
       pairingTopic,
