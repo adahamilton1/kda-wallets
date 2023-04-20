@@ -46,6 +46,19 @@ import {
  */
 
 /**
+ * @typedef KadenaGetAccountsV1Response
+ * @property {RetrievedKadenaAccountAccountsEntry[]} accounts
+ */
+
+/**
+ * Dont care about other fields for now
+ * @typedef RetrievedKadenaAccountAccountsEntry
+ * @property {string} publicKey
+ * @property {{ name: string }[]} kadenaAccounts
+ *
+ */
+
+/**
  * WalletConnectWallet
  *
  * Based on [KIP-0017](https://github.com/kadena-io/KIPs/blob/master/kip-0017.md)
@@ -245,6 +258,7 @@ export class WalletConnectWallet extends KdaWallet {
    */
   static async getAccounts(signClient, networkId, walletConnectAccounts) {
     try {
+      /** @type {KadenaGetAccountsV1Response} */
       const resp = await signClient.request({
         topic: signClientLastSession(signClient).topic,
         chainId: mkChainKey(networkId),
@@ -255,15 +269,6 @@ export class WalletConnectWallet extends KdaWallet {
           },
         },
       });
-      /**
-       * Don't care about other fields in response for now
-       * @type {{
-       *  publicKey: string;
-       *  kadenaAccounts: {
-       *    name: string;
-       *  }[];
-       * }[]}
-       */
       const { accounts } = resp;
       return accounts
         .map(({ publicKey, kadenaAccounts }) =>
