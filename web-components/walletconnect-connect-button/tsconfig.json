@@ -11,7 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@kcf/kda-wallet-base": ["../../base"],
-      "@kcf/kda-wallet-web-components-base": ["../base"]
+      "@kcf/kda-wallet-web-components-base": ["../base"],
+      "@kcf/kda-wallet-walletconnect": ["../../wallets/walletconnect"]
     }
   }
 }
